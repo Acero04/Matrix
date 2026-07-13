@@ -1,6 +1,7 @@
 #include "../include/operations.hpp"
 #include "../include/Matrix.hpp"
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 
@@ -8,13 +9,34 @@ std::ostream &operator<<(std::ostream &Out, const Matrix &matrix) {
     matrix.display(Out);
     return Out;
 }
-void power(Matrix& A, const double& n) {
-    auto i = 0;
-    while (i < n)
-        A *= A;
-}
+void power(Matrix& A, const double& n) {}
 
-//OPERATEUR ARITHMETIQUE...
+Matrix transpose(const Matrix& A) {
+    Matrix temp = A;
+    temp.transposition();
+    return temp;
+}
+bool square_matrix(const Matrix& A) {
+    return (A.getNumberRow() == A.getNumberColumn());
+}
+bool check_symmetric(const Matrix& A) {
+    if (!square_matrix(A)) {
+        std::cerr << "la matrice n'est pas carre.";
+        return false;
+    } else {
+        return (transpose(A) == A);
+    }
+}
+bool check_anti_symmetric(const Matrix& A) {
+    if (!square_matrix(A)) {
+        std::cerr << "la matrice n'est pas carre.";
+        return false;
+    } else {
+        Matrix temp = A * (-1);
+        return (transpose(A) == temp);
+    }
+}
+//OPERATEUR ARITHMETIQUE....
 Matrix operator+(const Matrix &A, const Matrix &B) {
     Matrix temp = A;
     temp += B;
@@ -49,4 +71,11 @@ Matrix operator*(const Matrix &A, const double& x) {
         result.push_back(row);
     }
     return Matrix(result);
+}
+
+bool operator==(const Matrix &A, const Matrix &B) {
+    return A.equal(B);
+}
+bool operator!=(const Matrix &A, const Matrix &B) {
+    return !A.equal(B);
 }

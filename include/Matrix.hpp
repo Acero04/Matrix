@@ -40,7 +40,7 @@ class Matrix {
                     throw std::invalid_argument("nombre de colonnes differentes");
             }
         }
-        Matrix(std::vector<std::vector<double>> arg) : line_(arg.size()) {
+        Matrix(std::vector<std::vector<double>> arg) {
            
             matrix_ = arg;
             line_ = matrix_.size();
@@ -49,7 +49,7 @@ class Matrix {
                 if (line.size() != column_)
                     throw std::invalid_argument("nombre de colonnes differentes");
         }
-        Matrix() : line_(0), column_(0) {};
+        Matrix() = delete;
 
         Matrix(int line, int column, double defautValue = 0.0) : line_(line), column_(column) {
             int i = 0;
@@ -59,19 +59,20 @@ class Matrix {
                 i++;
             }
         }
-
-        const std::vector<double>& getRow(int i) const;
+        const std::vector<double> getRow(int i) const;
         const std::vector<double> getColumn(size_t j) const;
 
         const std::size_t getNumberRow() const;
         const std::size_t getNumberColumn() const;
 
         void display(std::ostream& Out) const;
+        bool equal(const Matrix& A) const;
         void transposition();
         const double& operator()(size_t i, size_t j) const;
         Matrix& operator+=(const Matrix &M);
         Matrix& operator-=(const Matrix &M);
         Matrix& operator*=(const Matrix &B);
+        Matrix& operator*=(const double& x);
 };
 
 #endif // !DEF_MATRIX_HPe
